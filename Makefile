@@ -15,4 +15,4 @@ lint:
 
 test:
 	@echo "Ejecutando tests..."
-	pytest -v tests/
+	pytest -v --cov tests/
