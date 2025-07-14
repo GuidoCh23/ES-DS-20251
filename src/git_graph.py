@@ -115,7 +115,7 @@ class GitGraphAnalyzer:
                             if obj_type == 'commit':
                                 commit_data = self.parse_commit(content)
                                 self.commits[sha] = commit_data
-                        except:
+                        except Exception:
                             continue
 
     def build_graph(self):
@@ -177,7 +177,8 @@ class GitGraphAnalyzer:
 
     def find_critical_path(self):
         """
-        Encuentra el camino critico usando Dijkstra para minimizar deuda de merges
+        Encuentra el camino critico usando Dijkstra
+        para minimizar deuda de merges
         """
         head_sha = self.get_head_sha()
         if head_sha not in self.commits:
@@ -278,7 +279,9 @@ class GitGraphAnalyzer:
                     f.write(f'  "{sha}" [label="{label}", fillcolor=red];\n')
                 else:
                     # Commits normales en azul
-                    f.write(f'  "{sha}" [label="{label}", fillcolor=lightblue];\n')
+                    f.write(
+                        f'  "{sha}" [label="{label}", fillcolor=lightblue];\n'
+                        )
 
             # Escribir aristas (relaciones padre-hijo)
             for sha, parents in self.graph.items():
@@ -302,7 +305,7 @@ def main():
     analyzer.generate_dot_file('git_graph.dot')
 
     # Mostramos resultados
-    print(f"Analisis completado:")
+    print("Analisis completado:")
     print(f"  Densidad de ramas: {analysis['density']:.4f}")
     print(f"  Camino critico: {len(analysis['critical_path'])} commits")
     print(f"  Bottlenecks encontrados: {len(analysis['bottlenecks'])}")
